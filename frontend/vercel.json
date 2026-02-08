@@ -1,36 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/start",
-      "destination": "https://wumpus-game-1jj6.onrender.com/start"
-    },
-    {
-      "source": "/api/state",
-      "destination": "https://wumpus-game-1jj6.onrender.com/state"
-    },
-    {
-      "source": "/api/move",
-      "destination": "https://wumpus-game-1jj6.onrender.com/move"
-    },
-    {
-      "source": "/api/shoot",
-      "destination": "https://wumpus-game-1jj6.onrender.com/shoot"
-    },
-    {
-      "source": "/api/grab",
-      "destination": "https://wumpus-game-1jj6.onrender.com/grab"
-    },
-    {
-      "source": "/api/climb",
-      "destination": "https://wumpus-game-1jj6.onrender.com/climb"
-    },
-    {
-      "source": "/api/auto",
-      "destination": "https://wumpus-game-1jj6.onrender.com/auto"
-    },
-    {
-      "source": "/api/reveal",
-      "destination": "https://wumpus-game-1jj6.onrender.com/reveal"
+      "source": "/api/:path*",
+      "destination": "https://wumpus-game-1jj6.onrender.com/:path*"
     }
   ]
 }
