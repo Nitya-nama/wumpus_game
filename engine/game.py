@@ -119,3 +119,22 @@ class Game:
     def kill(self):
         self.wumpus = (-1,-1)
         self.scream = True
+        self.score += 500      # reward for killing Wumpus
+        
+    def grab(self):
+    # player standing on gold
+        if self.player == self.gold and not self.has_gold:
+            self.has_gold = True
+            self.score += 1000
+        return self.state()
+    
+    def climb(self):
+    # start tile is (3,0)
+        if self.player == (3,0):
+            if self.has_gold:
+                self.won = True
+                self.alive = False
+                self.score += 2000
+        return self.state()
+
+

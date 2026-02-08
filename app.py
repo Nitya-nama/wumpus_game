@@ -44,11 +44,13 @@ def grab():
     gid = session.get("gid")
     return jsonify(games[gid].grab())
 
+
 # ---------------- CLIMB ----------------
 @app.route("/climb", methods=["POST"])
 def climb():
     gid = session.get("gid")
     return jsonify(games[gid].climb())
+
 
 # ---------------- RUN ----------------
 if __name__ == "__main__":
