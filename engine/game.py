@@ -48,6 +48,22 @@ class Game:
             "scream":self.scream,
             "bump":self.bump
         }
+    def state(self):
+        return {
+            "player": list(self.player),
+            "visited": [list(p) for p in self.visited],
+            "alive": self.alive,
+            "won": self.won,
+            "score": self.score,
+            "has_gold": self.has_gold,
+            "percepts": {
+                "breeze": self.percepts(self.player)["breeze"],
+                "stench": self.percepts(self.player)["stench"],
+                "glitter": self.percepts(self.player)["glitter"],
+                "scream": self.percepts(self.player)["scream"],
+                "bump": self.percepts(self.player)["bump"]
+            }
+        }
 
     # ---------- MOVE ----------
     def move(self,direction):
