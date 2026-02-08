@@ -1,3 +1,4 @@
+const API_BASE = "https://your-render-url.onrender.com";
 let visited=new Set()
 let shoot=false
 
@@ -33,20 +34,20 @@ window.onload=()=>{
 
 async function move(d){
  if(shoot){
-  await fetch("/shoot",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
+  await fetch("API_BASE + /shoot",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
   shoot=false
  }else{
-  await fetch("/move",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
+  await fetch("API_BASE + /move",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
  }
  update()
 }
 
-async function grab(){await fetch("/grab",{method:"POST"});update()}
-async function climb(){await fetch("/climb",{method:"POST"});update()}
+async function grab(){await fetch("API_BASE + /grab",{method:"POST"});update()}
+async function climb(){await fetch("API_BASE + /climb",{method:"POST"});update()}
 function shootMode(){shoot=!shoot}
 
 async function update(){
- const r=await fetch("/state")
+ const r=await fetch("API_BASE + /state")
  const d=await r.json()
 
  visited.add(k(d.position[0],d.position[1]))
@@ -71,7 +72,7 @@ function hud(d){
 }
 
 async function autoPlay(){
- const r=await fetch("/auto")
+ const r=await fetch("API_BASE + /auto")
  const d=await r.json()
  update()
  if(!d.game_over) setTimeout(autoPlay,500)
@@ -102,7 +103,7 @@ function draw(d){
 }
 
 async function reveal(){
- const r=await fetch("/reveal")
+ const r=await fetch("API_BASE + /reveal")
  const m=await r.json()
  console.log("map",m)
 }

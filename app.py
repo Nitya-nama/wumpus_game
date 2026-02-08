@@ -1,11 +1,12 @@
 from flask import Flask, jsonify, request, render_template, session
 from wumpus_engine import WumpusWorld
 from ai_agent import WumpusAgent
+from flask_cors import CORS
+CORS(app)
 import uuid
 
 app = Flask(__name__)
 app.secret_key = "secret123"
-
 games = {}
 agents = {}
 
@@ -125,5 +126,5 @@ def reveal():
 
 # ---------------- RUN ----------------
 
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__=="__main__":
+    app.run(host="0.0.0.0", port=10000)
