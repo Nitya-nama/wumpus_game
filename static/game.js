@@ -9,6 +9,28 @@ async function newGame(){
  update()
 }
 
+const toggle=document.getElementById("themeToggle")
+
+// load saved theme
+if(localStorage.getItem("theme")==="light"){
+ document.body.classList.add("light")
+ toggle.checked=true
+}
+
+toggle.addEventListener("change",()=>{
+ document.body.classList.toggle("light")
+ localStorage.setItem(
+  "theme",
+  document.body.classList.contains("light")?"light":"dark"
+ )
+})
+
+
+window.onload=()=>{
+ if(localStorage.getItem("theme")==="light")
+  document.body.classList.add("light")
+}
+
 async function move(d){
  if(shoot){
   await fetch("/shoot",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
@@ -47,6 +69,14 @@ function hud(d){
 
  document.getElementById("msg").innerText=d.message
 }
+
+async function autoPlay(){
+ const r=await fetch("/auto")
+ const d=await r.json()
+ update()
+ if(!d.game_over) setTimeout(autoPlay,500)
+}
+
 
 function draw(d){
  const g=document.getElementById("grid")

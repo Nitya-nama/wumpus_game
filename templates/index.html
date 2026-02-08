@@ -7,7 +7,13 @@
 <body>
 
 <h1>Wumpus World</h1>
-
+<div class="themeSwitch">
+  <input type="checkbox" id="themeToggle">
+  <label for="themeToggle" class="switch">
+    <span class="sun">☀️</span>
+    <span class="moon">🌙</span>
+  </label>
+</div>
 <div id="hud">
 <span id="score">🏆 0</span>
 <span id="sense"></span>
@@ -30,6 +36,7 @@
 <button onclick="shootMode()">Shoot</button>
 <button onclick="climb()">Climb</button>
 <button onclick="newGame()">New Game</button>
+<button onclick="autoPlay()">🤖 Auto Solve</button>
 </div>
 
 <script src="/static/game.js"></script>

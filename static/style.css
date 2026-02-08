@@ -1,26 +1,203 @@
-body{background:#0b1220;color:white;text-align:center;font-family:Segoe UI}
+/* =====================================================
+   THEME VARIABLES
+===================================================== */
+
+:root{
+ --bg:#0b0713;
+ --panel:#1a0f2b;
+ --tile:#23143a;
+ --hidden:#140c24;
+ --border:#7c3aed;
+ --accent:#a855f7;
+ --text:#f5f3ff;
+ --glow:rgba(168,85,247,.6);
+ --btn:#2a1846;
+}
+
+.light{
+ --bg:#faf7ff;
+ --panel:#efe7ff;
+ --tile:#e4d7ff;
+ --hidden:#d6c8ff;
+ --border:#8b5cf6;
+ --accent:#6d28d9;
+ --text:#1f1147;
+ --glow:rgba(139,92,246,.35);
+ --btn:#dcd2ff;
+}
+
+/* =====================================================
+   BASE
+===================================================== */
+
+body{
+ background:var(--bg);
+ color:var(--text);
+ font-family:Segoe UI, sans-serif;
+ text-align:center;
+ transition:background .35s,color .35s;
+ margin:0;
+ padding:0;
+}
+
+h1{
+ margin-top:20px;
+ letter-spacing:1px;
+}
+
+/* =====================================================
+   HUD
+===================================================== */
+
+#hud{
+ display:flex;
+ justify-content:space-between;
+ width:340px;
+ margin:10px auto;
+ font-weight:bold;
+ font-size:18px;
+}
+
+#msg{
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:10px;
+ width:320px;
+ margin:10px auto;
+ box-shadow:0 0 12px rgba(0,0,0,.25);
+}
+
+/* =====================================================
+   GRID
+===================================================== */
 
 .grid{
-display:grid;
-grid-template-columns:repeat(4,80px);
-gap:10px;
-justify-content:center;
-margin:20px
+ display:grid;
+ grid-template-columns:repeat(4,80px);
+ gap:12px;
+ justify-content:center;
+ margin:25px auto;
+ width:max-content;
 }
 
 .cell{
-width:80px;height:80px;background:#1b2538;
-display:flex;align-items:center;justify-content:center;
-font-size:28px;border-radius:10px
+ width:80px;
+ height:80px;
+ background:var(--tile);
+ border:2px solid var(--border);
+ border-radius:14px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:30px;
+ transition:.25s;
 }
 
-.hidden{background:#111827;color:#222}
-.player{border:2px solid gold}
-
-#msg{margin:10px;font-size:18px}
-
-.controls button,.actions button{
-margin:5px;padding:10px;border:none;border-radius:6px;background:#374151;color:white
+.cell:hover{
+ transform:scale(1.06);
+ box-shadow:0 0 15px var(--glow);
 }
 
-#hud{display:flex;justify-content:space-between;width:320px;margin:auto}
+.hidden{
+ background:var(--hidden);
+ color:#555;
+}
+
+.player{
+ border:2px solid var(--accent);
+ box-shadow:0 0 18px var(--glow);
+ background:var(--panel);
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.controls button,
+.actions button{
+ background:var(--btn);
+ color:var(--text);
+ border:none;
+ padding:10px 14px;
+ margin:5px;
+ border-radius:10px;
+ font-size:16px;
+ cursor:pointer;
+ transition:.2s;
+}
+
+.controls button:hover,
+.actions button:hover{
+ transform:translateY(-2px);
+ box-shadow:0 0 10px var(--glow);
+}
+
+/* =====================================================
+   THEME TOGGLE SWITCH
+===================================================== */
+
+.themeSwitch{
+ position:absolute;
+ top:18px;
+ right:20px;
+}
+
+.switch{
+ width:70px;
+ height:34px;
+ background:#111;
+ border-radius:50px;
+ position:relative;
+ display:flex;
+ align-items:center;
+ padding:4px;
+ cursor:pointer;
+ transition:.3s;
+}
+
+.switch::before{
+ content:"";
+ width:26px;
+ height:26px;
+ background:white;
+ border-radius:50%;
+ position:absolute;
+ left:4px;
+ transition:.35s cubic-bezier(.68,-.55,.27,1.55);
+}
+
+input{
+ display:none;
+}
+
+input:checked + .switch::before{
+ transform:translateX(36px);
+}
+
+.sun,.moon{
+ position:absolute;
+ font-size:16px;
+ pointer-events:none;
+}
+
+.sun{ left:10px }
+.moon{ right:10px }
+
+.light .switch{
+ background:#c4b5fd;
+}
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes pulse{
+ 0%{box-shadow:0 0 0 var(--glow)}
+ 50%{box-shadow:0 0 18px var(--glow)}
+ 100%{box-shadow:0 0 0 var(--glow)}
+}
+
+.player{
+ animation:pulse 2s infinite;
+}
