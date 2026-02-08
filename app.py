@@ -2,119 +2,60 @@ from flask import Flask, jsonify, request, render_template, session
 from wumpus_engine import WumpusWorld
 import uuid
 
-app = Flask(__name__)
-app.secret_key = "wumpus-secret-key"   # required for session storage
-
-# Store games per user session
-games = {}
-
-# --------------------------------------------------
-# Utility
-# --------------------------------------------------
+app=Flask(__name__)
+app.secret_key="secret123"
+games={}
 
 def get_game():
-    """Return current user's game instance"""
-    gid = session.get("game_id")
-
+    gid=session.get("gid")
     if not gid or gid not in games:
-        gid = str(uuid.uuid4())
-        session["game_id"] = gid
-        games[gid] = WumpusWorld()
-
+        gid=str(uuid.uuid4())
+        session["gid"]=gid
+        games[gid]=WumpusWorld()
     return games[gid]
-
-
-def response(game):
-    """Standard JSON response format"""
-    return jsonify({
-        "position": game.player_pos,
-        "percepts": game.perceptions(),
-        "arrow": game.arrow,
-        "gold": game.has_gold,
-        "game_over": game.game_over,
-        "message": game.message
-    })
-
-
-# --------------------------------------------------
-# Routes
-# --------------------------------------------------
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
-
-# Start / Reset game
-@app.route("/start", methods=["GET"])
+@app.route("/start")
 def start():
-    gid = str(uuid.uuid4())
-    session["game_id"] = gid
-    games[gid] = WumpusWorld()
-    return response(games[gid])
+    gid=str(uuid.uuid4())
+    session["gid"]=gid
+    games[gid]=WumpusWorld()
+    return jsonify(games[gid].state())
 
-
-# Get state
-@app.route("/state", methods=["GET"])
+@app.route("/state")
 def state():
-    game = get_game()
-    return response(game)
+    return jsonify(get_game().state())
 
-
-# Move player
-@app.route("/move", methods=["POST"])
+@app.route("/move",methods=["POST"])
 def move():
-    game = get_game()
-    data = request.get_json()
+    g=get_game()
+    g.move(request.json["direction"])
+    return jsonify(g.state())
 
-    if not data or "direction" not in data:
-        return jsonify({"error": "Direction required"}), 400
-
-    direction = data["direction"].lower()
-
-    if game.game_over:
-        return response(game)
-
-    game.move(direction)
-    return response(game)
-
-
-# Shoot arrow
-@app.route("/shoot", methods=["POST"])
+@app.route("/shoot",methods=["POST"])
 def shoot():
-    game = get_game()
-    data = request.get_json()
+    g=get_game()
+    g.shoot(request.json["direction"])
+    return jsonify(g.state())
 
-    if not data or "direction" not in data:
-        return jsonify({"error": "Direction required"}), 400
+@app.route("/grab",methods=["POST"])
+def grab():
+    g=get_game()
+    g.grab()
+    return jsonify(g.state())
 
-    direction = data["direction"].lower()
+@app.route("/climb",methods=["POST"])
+def climb():
+    g=get_game()
+    g.climb()
+    return jsonify(g.state())
 
-    if game.game_over:
-        return response(game)
-
-    game.shoot(direction)
-    return response(game)
-
-
-# --------------------------------------------------
-# Debug endpoint (optional — remove in production)
-# Reveals full map after game over
-# --------------------------------------------------
-
-@app.route("/reveal", methods=["GET"])
+@app.route("/reveal")
 def reveal():
-    game = get_game()
+    return jsonify(get_game().reveal())
 
-    return jsonify({
-        "player": game.player_pos,
-        "wumpus": game.wumpus_pos,
-        "gold": game.gold_pos,
-        "pits": list(game.pits_pos)
-    })
-
-
-# --------------------------------------------------
-
-if __name__ == "__main__":
+if __name__=="__main__":
     app.run(debug=True)

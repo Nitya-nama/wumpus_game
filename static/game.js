@@ -1,85 +1,80 @@
-let visited = new Set();
-let shootMode=false;
+let visited=new Set()
+let shoot=false
 
-function key(r,c){ return r+"-"+c }
+function k(r,c){return r+"-"+c}
 
 async function newGame(){
-    visited.clear();
-    await fetch("/start");
-    update();
+ visited.clear()
+ await fetch("/start")
+ update()
 }
 
-async function move(dir){
-    if(shootMode){
-        await fetch("/shoot",{method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({direction:dir})});
-        shootMode=false;
-    }else{
-        await fetch("/move",{method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({direction:dir})});
-    }
-    update();
+async function move(d){
+ if(shoot){
+  await fetch("/shoot",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
+  shoot=false
+ }else{
+  await fetch("/move",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
+ }
+ update()
 }
 
-function toggleShoot(){
-    shootMode=!shootMode;
-    setMessage(shootMode ? "Shoot mode: choose direction" : "Move mode");
-}
-
-function grab(){ setMessage("Auto grab when on gold"); }
-function climb(){ move("down"); }
-
-function setMessage(msg){
-    document.getElementById("message").innerText=msg;
-}
+async function grab(){await fetch("/grab",{method:"POST"});update()}
+async function climb(){await fetch("/climb",{method:"POST"});update()}
+function shootMode(){shoot=!shoot}
 
 async function update(){
-    const res=await fetch("/state");
-    const data=await res.json();
+ const r=await fetch("/state")
+ const d=await r.json()
 
-    visited.add(key(data.position[0],data.position[1]));
+ visited.add(k(d.position[0],d.position[1]))
 
-    drawGrid(data);
-    document.getElementById("arrow").innerText="🎯 "+data.arrow;
-    document.getElementById("message").innerText=data.message || "";
+ draw(d)
+ hud(d)
+
+ if(d.game_over) reveal()
 }
 
-function drawGrid(data){
-    const grid=document.getElementById("grid");
-    grid.innerHTML="";
+function hud(d){
+ document.getElementById("score").innerText="🏆 "+d.score
+ document.getElementById("arrow").innerText="🏹 "+d.arrow
 
-    for(let r=3;r>=0;r--){
-        for(let c=0;c<4;c++){
+ let s=""
+ if(d.percepts.includes("stench")) s+="👃 "
+ if(d.percepts.includes("breeze")) s+="💨 "
+ if(d.percepts.includes("glitter")) s+="✨ "
+ document.getElementById("sense").innerText=s
 
-            const div=document.createElement("div");
-            div.className="cell";
+ document.getElementById("msg").innerText=d.message
+}
 
-            if(!visited.has(key(r,c))){
-                div.classList.add("hidden");
-                div.innerText="?";
-            }else{
+function draw(d){
+ const g=document.getElementById("grid")
+ g.innerHTML=""
 
-                if(data.position[0]==r && data.position[1]==c){
-                    div.classList.add("player");
-                    div.innerText="🧍";
-                }else{
-                    div.innerText=perceptIcon(data,r,c);
-                }
+ for(let r=3;r>=0;r--){
+  for(let c=0;c<4;c++){
+   const div=document.createElement("div")
+   div.className="cell"
 
-            }
-            grid.appendChild(div);
-        }
+   if(!visited.has(k(r,c))){
+    div.classList.add("hidden")
+    div.innerText="?"
+   }else{
+    if(d.position[0]==r&&d.position[1]==c){
+     div.classList.add("player")
+     div.innerText="🧍"
     }
+   }
+   g.appendChild(div)
+  }
+ }
 }
 
-function perceptIcon(data,r,c){
-    if(data.percepts.includes("glitter") && data.position[0]==r && data.position[1]==c)
-        return "💰";
-    if(data.percepts.includes("breeze")) return "💨";
-    if(data.percepts.includes("stench")) return "👃";
-    return "";
+async function reveal(){
+ const r=await fetch("/reveal")
+ const m=await r.json()
+ console.log("map",m)
 }
 
-newGame();
+newGame()

@@ -1,76 +1,26 @@
-body{
-    background:#0b1220;
-    color:#eee;
-    font-family:Segoe UI;
-    text-align:center;
-}
-
-h1{
-    color:#ffb020;
-    margin-top:20px;
-}
-
-.subtitle{
-    color:#9aa4b2;
-}
+body{background:#0b1220;color:white;text-align:center;font-family:Segoe UI}
 
 .grid{
-    display:grid;
-    grid-template-columns:repeat(4,80px);
-    gap:10px;
-    justify-content:center;
-    margin:20px 0;
+display:grid;
+grid-template-columns:repeat(4,80px);
+gap:10px;
+justify-content:center;
+margin:20px
 }
 
 .cell{
-    width:80px;
-    height:80px;
-    border-radius:10px;
-    background:#1b2538;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:28px;
-    transition:.2s;
+width:80px;height:80px;background:#1b2538;
+display:flex;align-items:center;justify-content:center;
+font-size:28px;border-radius:10px
 }
 
-.hidden{
-    background:#111827;
-    color:#2a344a;
+.hidden{background:#111827;color:#222}
+.player{border:2px solid gold}
+
+#msg{margin:10px;font-size:18px}
+
+.controls button,.actions button{
+margin:5px;padding:10px;border:none;border-radius:6px;background:#374151;color:white
 }
 
-.player{
-    border:2px solid gold;
-    box-shadow:0 0 10px gold;
-}
-
-.message{
-    background:#1b2538;
-    padding:10px;
-    border-radius:8px;
-    width:350px;
-    margin:auto;
-}
-
-.controls button{
-    background:#2b3548;
-    color:white;
-    border:none;
-    padding:10px 14px;
-    margin:5px;
-    border-radius:6px;
-    font-size:18px;
-}
-
-.actions button{
-    margin:5px;
-    padding:10px 14px;
-    border:none;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-.gold{background:#ffb020;color:black;}
-.shoot{background:#4b5563;color:white;}
-.climb{background:#6b7280;}
-.new{background:#374151;}
+#hud{display:flex;justify-content:space-between;width:320px;margin:auto}
