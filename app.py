@@ -23,11 +23,12 @@ app.config.update(
 CORS(
     app,
     supports_credentials=True,
-    resources={r"/*": {"origins": [
-        "https://wumpus-game-azure.vercel.app/"
-    ]}}
+    origins=[
+        "https://*.vercel.app",
+        "http://localhost:3000",
+        "http://127.0.0.1:5500"
+    ]
 )
-
 
 games = {}
 agents = {}
