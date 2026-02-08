@@ -22,3 +22,13 @@ body{
     justify-content:center;
     font-size:28px;
 }
+.cell{
+ height:80px;
+ border-radius:14px;
+ background:#111827;
+ box-shadow:inset 0 0 0 1px #2b3448;
+ font-size:26px;
+}
+.cell:hover{
+ outline:1px solid #ffb703;
+}
