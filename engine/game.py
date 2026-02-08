@@ -31,6 +31,28 @@ class Game:
         self.pits=set(random.sample([c for c in cells if c!=self.gold],3))
 
         self.visited=set([self.player])
+        
+    def shoot(self, direction):
+        if not self.arrow:
+            return self.state()
+
+        self.arrow = False
+        self.score -= 10
+
+        px, py = self.player
+        wx, wy = self.wumpus
+
+        if direction == "up" and py == wy and wx < px:
+            self.kill()
+        if direction == "down" and py == wy and wx > px:
+            self.kill()
+        if direction == "left" and px == wx and wy < py:
+            self.kill()
+        if direction == "right" and px == wx and wy > py:
+            self.kill()
+
+        return self.state()
+    
 
     # ---------- PERCEPT SYSTEM ----------
     def percepts(self,pos):
@@ -92,4 +114,8 @@ class Game:
             self.alive=False
             self.score-=1000
 
-        return self.s
+        return self.state()
+    
+    def kill(self):
+        self.wumpus = (-1,-1)
+        self.scream = True

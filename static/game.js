@@ -66,7 +66,52 @@ function draw(){
     }
 
     document.getElementById("score").innerText=state.score;
+
+    // NEW
+    updateStatus();
+    updatePercepts();
 }
+
+function updateStatus(){
+    const box=document.getElementById("statusBox");
+
+    if(!state.alive && !state.won){
+        box.className="status danger";
+        box.innerText="💀 Game Over! You fell into a bottomless pit.";
+        return;
+    }
+
+    if(state.won){
+        box.className="status win";
+        box.innerText="🏆 You escaped with the gold!";
+        return;
+    }
+
+    box.className="status info";
+    box.innerText="You are exploring the cave...";
+}
+
+function updatePercepts(){
+    const p=state.percepts;
+    let msgs=[];
+
+    if(p.breeze) msgs.push("💨 Breeze (Pit nearby)");
+    if(p.stench) msgs.push("💀 Stench (Wumpus nearby)");
+    if(p.glitter) msgs.push("✨ Glitter (Gold here)");
+    if(p.bump) msgs.push("🧱 Bump (Wall)");
+    if(p.scream) msgs.push("😱 Scream (Wumpus killed)");
+
+    const box=document.getElementById("senseBox");
+    box.innerText = msgs.length ? msgs.join(" | ") : "No unusual percepts.";
+}
+
+const toggle=document.getElementById("themeToggle");
+
+toggle.onclick=()=>{
+    document.body.classList.toggle("light");
+    toggle.innerText =
+        document.body.classList.contains("light") ? "☀️" : "🌙";
+};
 
 // ---------- AUTO START ----------
 window.onload = newGame;
