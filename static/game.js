@@ -58,7 +58,8 @@ document.getElementById("sense").innerText =
  /* ---- WIN / LOSE MODAL ---- */
 const modal = document.getElementById("modal")
 
-if(d.game_over && modal.classList.contains("hidden")){
+if(d.game_over && modal.classList.contains("hidden"))
+    {
     modal.classList.remove("hidden")
 
     if(d.score > 0)
@@ -67,8 +68,9 @@ if(d.game_over && modal.classList.contains("hidden")){
         document.getElementById("modalTitle").innerText="💀 GAME OVER"
 
     document.getElementById("modalMsg").innerText="Final Score: "+d.score
-}
+   }
 
+ if(!d.position) return
 
  /* ---- AI REASONING ---- */
  explainAI(d)

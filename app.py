@@ -26,16 +26,22 @@ def home():
 def start():
     session.clear()
     g,a=get_game()
-    return jsonify(g.state())
+    s=g.state()
+    s["safe"]=list(a.safe)
+    s["visited"]=list(a.visited)
+    return jsonify(s)
 
 @app.route("/state")
 def state():
     g,a=get_game()
     a.update(g.player_pos,g.percepts())
-    s = g.state()
-    s["safe"] = list(a.safe)
-    s["visited"] = list(a.visited)
+
+    s=g.state()
+    s["safe"]=list(a.safe)
+    s["visited"]=list(a.visited)
+
     return jsonify(s)
+
 
 @app.route("/move",methods=["POST"])
 def move():
