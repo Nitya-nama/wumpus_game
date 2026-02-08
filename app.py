@@ -15,7 +15,9 @@ app.config.update(
 )
 
 # Allow cross-origin requests with credentials
-CORS(app, supports_credentials=True)
+CORS(app,
+     supports_credentials=True,
+     origins=["https://wumpus-game.vercel.app", "http://localhost:3000", "http://127.0.0.1:5500"])
 
 
 games = {}
