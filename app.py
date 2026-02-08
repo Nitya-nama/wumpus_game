@@ -1,37 +1,15 @@
-from flask import Flask, jsonify, request, render_template, session
+from flask import Flask, jsonify, request, session
 from wumpus_engine import WumpusWorld
 from ai_agent import WumpusAgent
-from flask_cors import CORS
-
 import uuid
+import os
 
 app = Flask(__name__)
-app.config.update(
-    SESSION_COOKIE_SAMESITE="None",
-    SESSION_COOKIE_SECURE=True
-)
+app.secret_key = os.environ.get("SECRET_KEY","dev-secret")
 
-app.secret_key = "secret123"
+games={}
+agents={}
 
-# IMPORTANT FOR VERCEL FRONTEND COOKIES
-app.config.update(
-    SESSION_COOKIE_SAMESITE="None",
-    SESSION_COOKIE_SECURE=True
-)
-
-# Allow cross-origin requests with credentials
-CORS(
-    app,
-    supports_credentials=True,
-    origins=[
-        "https://*.vercel.app",
-        "http://localhost:3000",
-        "http://127.0.0.1:5500"
-    ]
-)
-
-games = {}
-agents = {}
 
 # ---------------- GAME SESSION ----------------
 
