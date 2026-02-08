@@ -60,15 +60,26 @@ async function autoPlay(){
 
 async function update(){
     const r = await fetch("/api/state",{credentials:"include"});
+
+    if(!r.ok){
+        console.error("API error", r.status);
+        return;
+    }
+
     const d = await r.json();
 
-    visited.add(k(d.position[0],d.position[1]));
+    if(!d.position){
+        console.error("Invalid state", d);
+        return;
+    }
 
+    visited.add(k(d.position[0],d.position[1]));
     draw(d);
     hud(d);
 
     if(d.game_over) reveal();
 }
+
 
 /* ---------------- UI ---------------- */
 

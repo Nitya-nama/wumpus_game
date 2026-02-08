@@ -114,10 +114,9 @@ def auto():
 
     if g.game_over:
         state = g.state()
-    state["safe"] = list(a.safe)
-    state["visited"] = list(a.visited)
-    return jsonify(state)
-
+        state["safe"] = list(a.safe)
+        state["visited"] = list(a.visited)
+        return jsonify(state)
 
     a.update(g.player_pos, g.perceptions())
     move = a.next_move(g.player_pos)
@@ -131,7 +130,11 @@ def auto():
         elif nc > c: g.move("right")
         elif nc < c: g.move("left")
 
-    return jsonify(g.state())
+    state = g.state()
+    state["safe"] = list(a.safe)
+    state["visited"] = list(a.visited)
+
+    return jsonify(state)
 
 
 # -------- REVEAL MAP --------
@@ -144,5 +147,5 @@ def reveal():
 
 # ---------------- RUN ----------------
 
-if __name__=="__main__":
+if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
