@@ -39,7 +39,12 @@ def get_game():
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return {
+        "service": "Wumpus AI backend",
+        "status": "running",
+        "message": "Use /state endpoint"
+    }
+
 
 
 @app.route("/start")
