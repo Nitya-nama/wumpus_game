@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wumpus World</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Wumpus World</h1>
+
+<div id="hud">
+<span id="score"></span>
+<span id="sense"></span>
+</div>
+
+<div id="grid"></div>
+
+<div class="controls">
+<button onclick="move('up')">⬆</button>
+<button onclick="move('left')">⬅</button>
+<button onclick="move('right')">➡</button>
+<button onclick="move('down')">⬇</button>
+<button onclick="autoPlay()">AUTO</button>
+</div>
+
+<script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>
