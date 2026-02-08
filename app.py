@@ -6,6 +6,12 @@ from flask_cors import CORS
 import uuid
 
 app = Flask(__name__)
+app.config.update(
+    SESSION_COOKIE_SAMESITE="None",
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=False
+)
+
 app.secret_key = "secret123"
 
 # IMPORTANT FOR VERCEL FRONTEND COOKIES
