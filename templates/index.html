@@ -7,15 +7,21 @@
 <body>
 
 <h1>Wumpus World</h1>
+
+<div id="hud">
+    Score: <span id="score">0</span>
+</div>
+
 <div id="grid"></div>
 
 <div class="controls">
-    <button onclick="move('up')">↑</button>
-    <button onclick="move('left')">←</button>
-    <button onclick="move('down')">↓</button>
-    <button onclick="move('right')">→</button>
+    <button onclick="moveDir('up')">↑</button>
+    <button onclick="moveDir('left')">←</button>
+    <button onclick="moveDir('down')">↓</button>
+    <button onclick="moveDir('right')">→</button>
+
     <button onclick="grab()">Grab</button>
-    <button onclick="shoot()">Shoot</button>
+    <button onclick="shootMode()">Shoot</button>
     <button onclick="climb()">Climb</button>
     <button onclick="newGame()">New Game</button>
 </div>
