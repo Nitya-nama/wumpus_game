@@ -1,155 +1,38 @@
-/* ---------- THEME ---------- */
-:root{
-  --bg:#0b0713;
-  --tile:#24163d;
-  --accent:#a855f7;
-  --text:#f5f3ff;
-  --safe:#2563eb;
-}
-
-.light{
-  --bg:#faf7ff;
-  --tile:#e6d9ff;
-  --accent:#6d28d9;
-  --text:#1f1147;
-  --safe:#60a5fa;
-}
-
-/* ---------- LAYOUT ---------- */
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Segoe UI, sans-serif;
-}
-
-.gameLayout{
-  display:grid;
-  grid-template-columns:220px auto 120px;
-  min-height:100vh;
-}
-
-.gameArea{
+  font-family:Arial;
   text-align:center;
-  padding-top:20px;
+  background:#111;
+  color:white;
 }
 
-.rightPanel{
-  display:flex;
-  justify-content:flex-end;
-  padding:20px;
-}
-
-/* ---------- GRID ---------- */
 #grid{
   display:grid;
-  grid-template-columns:repeat(4,80px);
-  grid-template-rows:repeat(4,80px);
-  gap:12px;
-  width:max-content;
-  margin:20px auto;
-}
-
-.cell{
-  width:80px;
-  height:80px;
-  background:var(--tile);
-  border-radius:12px;
-  display:flex;
-  align-items:center;
+  grid-template-columns:repeat(4,60px);
+  gap:8px;
   justify-content:center;
-  font-size:30px;
-  position:relative;
-}
-
-/* unexplored */
-.unknown{
-  background:#111;
-}
-
-/* AI SAFE CELL */
-.safe{
-  box-shadow:0 0 18px var(--safe);
-}
-
-/* player */
-.player{
-  box-shadow:0 0 18px var(--accent);
-}
-
-/* breeze */
-.breeze::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(200,200,255,.25);
-  animation:fog 3s infinite;
-}
-
-@keyframes fog{
-  0%{opacity:.2}
-  50%{opacity:.5}
-  100%{opacity:.2}
-}
-
-/* stench */
-.stench{
-  animation:toxic 1.5s infinite alternate;
-}
-
-@keyframes toxic{
-  from{box-shadow:0 0 10px rgba(0,255,0,.4)}
-  to{box-shadow:0 0 25px rgba(0,255,0,1)}
-}
-
-/* ---------- BUTTONS ---------- */
-button{
-  background:var(--accent);
-  color:white;
-  border:none;
-  border-radius:8px;
-  padding:10px 14px;
-  margin:6px;
-  font-size:16px;
-  cursor:pointer;
-}
-
-/* ---------- RULES ---------- */
-.rules{
-  background:var(--tile);
-  padding:12px;
-  border-radius:12px;
-  width:200px;
   margin:20px;
 }
 
-/* ---------- AI BOX ---------- */
-#aiBox{
-  background:var(--tile);
-  margin:20px auto;
-  padding:12px;
-  width:300px;
-  border-radius:10px;
-}
-
-/* ---------- MODAL ---------- */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
+.cell{
+  width:60px;
+  height:60px;
+  background:#333;
   display:flex;
   align-items:center;
   justify-content:center;
+  font-size:24px;
 }
 
-.hidden{
-  display:none;
-}
+.player{background:#7c3aed}
 
+.hidden{display:none}
 
-.modalBox{
-  background:var(--tile);
-  padding:25px;
-  border-radius:16px;
-  text-align:center;
+#modal{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.8);
+ display:flex;
+ align-items:center;
+ justify-content:center;
 }
+.box{background:#222;padding:20px}
