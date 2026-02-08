@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 async function newGame(){
  visited.clear()
+
+ document.getElementById("modal").classList.add("hidden")
+
  await fetch("/start")
  update()
 }
@@ -40,7 +43,17 @@ async function update(){
  draw(d)
 
  document.getElementById("score").innerText = "🏆 "+d.score+" 🏹 "+d.arrow
- document.getElementById("sense").innerText = d.percepts.join(" ")
+ const icons={
+  breeze:"💨",
+  stench:"👃",
+  glitter:"✨"
+}
+
+let perceptText=d.percepts.map(p=>icons[p]||p).join(" ")
+
+document.getElementById("sense").innerText =
+  (perceptText+" "+(d.message||"")).trim()
+
 
  /* ---- WIN / LOSE MODAL ---- */
  if(d.game_over){

@@ -8,6 +8,7 @@ class WumpusWorld:
         self.gold=self.rand_cell()
         self.pits={self.rand_cell() for _ in range(2)}
         self.has_gold=False
+        self.message=""
         self.arrow=1
         self.score=0
         self.game_over=False
@@ -44,9 +45,18 @@ class WumpusWorld:
             self.game_over=True
             self.score-=100
 
-        if self.player_pos==self.gold:
+        # pick gold
+        if self.player_pos==self.gold and not self.has_gold:
             self.has_gold=True
+            self.gold=None
             self.score+=1000
+            self.message="You picked up the GOLD! Return to start."
+
+        # win condition
+        if self.player_pos==(0,0) and self.has_gold:
+            self.game_over=True
+            self.message="You escaped the cave with the treasure!"
+
 
     def shoot(self,d):
         if self.arrow==0: return
@@ -70,5 +80,5 @@ class WumpusWorld:
             "score":self.score,
             "arrow":self.arrow,
             "game_over":self.game_over,
-            "message":"GAME OVER" if self.game_over else ""
+            "message":self.message
         }
