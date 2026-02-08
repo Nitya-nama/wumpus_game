@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wumpus World</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Wumpus World</h1>
+    <p class="subtitle">Navigate the cave. Find the gold. Survive.</p>
+
+    <div id="statusBar">
+        <span id="score">🏆 0</span>
+        <span id="arrow">🎯 1</span>
+    </div>
+
+    <div id="message" class="message">You enter the cave. Find the gold and return alive!</div>
+
+    <div id="grid" class="grid"></div>
+
+    <div class="controls">
+        <button onclick="move('up')">↑</button>
+        <div>
+            <button onclick="move('left')">←</button>
+            <button onclick="move('down')">↓</button>
+            <button onclick="move('right')">→</button>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="gold" onclick="grab()">🪙 Grab</button>
+        <button class="shoot" onclick="toggleShoot()">🏹 Shoot</button>
+        <button class="climb" onclick="climb()">🚪 Climb Out</button>
+        <button class="new" onclick="newGame()">🔄 New Game</button>
+    </div>
+
+</div>
+
+<script src="/static/game.js"></script>
+</body>
+</html>
