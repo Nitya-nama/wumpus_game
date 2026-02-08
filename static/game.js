@@ -56,17 +56,19 @@ document.getElementById("sense").innerText =
 
 
  /* ---- WIN / LOSE MODAL ---- */
- if(d.game_over){
-     const modal = document.getElementById("modal")
-     modal.classList.remove("hidden")
+const modal = document.getElementById("modal")
 
-     if(d.score > 0)
-         document.getElementById("modalTitle").innerText="🏆 YOU ESCAPED!"
-     else
-         document.getElementById("modalTitle").innerText="💀 GAME OVER"
+if(d.game_over && modal.classList.contains("hidden")){
+    modal.classList.remove("hidden")
 
-     document.getElementById("modalMsg").innerText="Final Score: "+d.score
- }
+    if(d.score > 0)
+        document.getElementById("modalTitle").innerText="🏆 YOU ESCAPED!"
+    else
+        document.getElementById("modalTitle").innerText="💀 GAME OVER"
+
+    document.getElementById("modalMsg").innerText="Final Score: "+d.score
+}
+
 
  /* ---- AI REASONING ---- */
  explainAI(d)
@@ -92,13 +94,6 @@ function draw(d){
     }
     else if(!visited.has(key)){
         div.classList.add("unknown")
-    }
-
-   if(d.position[0]==r && d.position[1]==c){
-    div.classList.add("player")
-    if(d.percepts.includes("breeze")) div.classList.add("breeze")
-    if(d.percepts.includes("stench")) div.classList.add("stench")
-    div.innerText="🧍"
     }
    g.appendChild(div)
   }

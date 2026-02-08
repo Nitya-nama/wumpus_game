@@ -142,7 +142,10 @@ button{
   justify-content:center;
 }
 
-.hide{display:none}
+.hidden{
+  display:none;
+}
+
 
 .modalBox{
   background:var(--tile);
