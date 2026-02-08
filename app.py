@@ -2,11 +2,22 @@ from flask import Flask, jsonify, request, render_template, session
 from wumpus_engine import WumpusWorld
 from ai_agent import WumpusAgent
 from flask_cors import CORS
-CORS(app)
+
 import uuid
 
 app = Flask(__name__)
 app.secret_key = "secret123"
+
+# IMPORTANT FOR VERCEL FRONTEND COOKIES
+app.config.update(
+    SESSION_COOKIE_SAMESITE="None",
+    SESSION_COOKIE_SECURE=True
+)
+
+# Allow cross-origin requests with credentials
+CORS(app, supports_credentials=True)
+
+
 games = {}
 agents = {}
 
@@ -59,7 +70,11 @@ def state():
 @app.route("/move", methods=["POST"])
 def move():
     g, a = get_game()
-    direction = request.json["direction"]
+    data = request.get_json()
+    if not data or "direction" not in data:
+        return jsonify({"error":"Direction missing"}),400
+    direction = data["direction"]
+
 
     g.move(direction)
     a.update(g.player_pos, g.perceptions())
@@ -70,7 +85,11 @@ def move():
 @app.route("/shoot", methods=["POST"])
 def shoot():
     g, a = get_game()
-    direction = request.json["direction"]
+    data = request.get_json()
+    if not data or "direction" not in data:
+        return jsonify({"error":"Direction missing"}),400
+    direction = data["direction"]
+
 
     g.shoot(direction)
     a.update(g.player_pos, g.perceptions())
@@ -99,7 +118,11 @@ def auto():
     g, a = get_game()
 
     if g.game_over:
-        return jsonify(g.state())
+        state = g.state()
+    state["safe"] = list(a.safe)
+    state["visited"] = list(a.visited)
+    return jsonify(state)
+
 
     a.update(g.player_pos, g.perceptions())
     move = a.next_move(g.player_pos)
