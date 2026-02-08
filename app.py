@@ -24,7 +24,7 @@ CORS(
     app,
     supports_credentials=True,
     resources={r"/*": {"origins": [
-        "https://wumpus-game-4sc3.vercel.app"
+        "https://wumpus-game-azure.vercel.app/"
     ]}}
 )
 
