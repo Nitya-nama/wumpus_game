@@ -8,8 +8,7 @@ import uuid
 app = Flask(__name__)
 app.config.update(
     SESSION_COOKIE_SAMESITE="None",
-    SESSION_COOKIE_SECURE=True,
-    SESSION_COOKIE_HTTPONLY=False
+    SESSION_COOKIE_SECURE=True
 )
 
 app.secret_key = "secret123"
@@ -21,9 +20,13 @@ app.config.update(
 )
 
 # Allow cross-origin requests with credentials
-CORS(app,
-     supports_credentials=True,
-     origins=["https://wumpus-game.vercel.app", "http://localhost:3000", "http://127.0.0.1:5500"])
+CORS(
+    app,
+    supports_credentials=True,
+    resources={r"/*": {"origins": [
+        "https://wumpus-game-4sc3.vercel.app"
+    ]}}
+)
 
 
 games = {}
