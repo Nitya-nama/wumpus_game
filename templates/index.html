@@ -1,28 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Wumpus World</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-
 <h1>Wumpus World</h1>
+<button onclick="toggleTheme()">🌙 / ☀</button>
+<div id="score"></div>
+<div id="sense"></div>
 
-<div id="hud">
-<span id="score"></span>
-<span id="sense"></span>
-</div>
+<div id="grid" class="grid"></div>
 
-<div id="grid"></div>
-
-<div class="controls">
+<div>
 <button onclick="move('up')">⬆</button>
 <button onclick="move('left')">⬅</button>
 <button onclick="move('right')">➡</button>
 <button onclick="move('down')">⬇</button>
-<button onclick="autoPlay()">AUTO</button>
 </div>
 
-<script src="{{ url_for('static', filename='game.js') }}"></script>
-</body>
-</html>
+<button onclick="shootMode()">🏹 Shoot</button>
+<button onclick="autoPlay()">🤖 Auto</button>
+<div id="modal" class="modal hidden">
+ <div class="modalBox">
+   <h2 id="modalTitle"></h2>
+   <p id="modalMsg"></p>
+   <button onclick="location.reload()">Restart</button>
+ </div>
+</div>
+<div class="mobileControls">
+ <button onclick="move('up')">⬆</button>
+ <div>
+  <button onclick="move('left')">⬅</button>
+  <button onclick="move('right')">➡</button>
+ </div>
+ <button onclick="move('down')">⬇</button>
+</div>
+<div id="aiBox">
+ <h3>🧠 AI Reasoning</h3>
+ <p id="aiText">Waiting...</p>
+</div>

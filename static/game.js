@@ -1,50 +1,108 @@
-let visited=new Set();
+let visited=new Set()
+let shoot=false
 
-function key(r,c){return r+"-"+c}
+function k(r,c){return r+"-"+c}
 
-async function start(){
- await fetch("/start");
- update();
+document.addEventListener("DOMContentLoaded",()=>{
+ newGame()
+})
+
+async function newGame(){
+ visited.clear()
+ await fetch("/start")
+ update()
 }
 
 async function move(d){
- await fetch("/move",{method:"POST",
- headers:{"Content-Type":"application/json"},
- body:JSON.stringify({direction:d})});
- update();
+ if(shoot){
+  await fetch("/shoot",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
+  shoot=false
+ }else{
+  await fetch("/move",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
+ }
+ update()
+}
+
+function shootMode(){shoot=!shoot}
+
+async function autoPlay(){
+ await fetch("/auto")
+ update()
 }
 
 async function update(){
- const r=await fetch("/state");
- const d=await r.json();
 
- visited.add(key(d.position[0],d.position[1]));
+ const r = await fetch("/state")
+ const d = await r.json()
 
- draw(d);
- document.getElementById("score").innerText="Score: "+d.score;
- document.getElementById("sense").innerText=d.percepts.join(" ");
+ /* ---- normal update ---- */
+ visited.add(k(d.position[0],d.position[1]))
+ draw(d)
+
+ document.getElementById("score").innerText = "🏆 "+d.score+" 🏹 "+d.arrow
+ document.getElementById("sense").innerText = d.percepts.join(" ")
+
+ /* ---- WIN / LOSE MODAL ---- */
+ if(d.game_over){
+     const modal = document.getElementById("modal")
+     modal.classList.remove("hidden")
+
+     if(d.score > 0)
+         document.getElementById("modalTitle").innerText="🏆 YOU ESCAPED!"
+     else
+         document.getElementById("modalTitle").innerText="💀 GAME OVER"
+
+     document.getElementById("modalMsg").innerText="Final Score: "+d.score
+ }
+
+ /* ---- AI REASONING ---- */
+ explainAI(d)
 }
 
+
 function draw(d){
- const g=document.getElementById("grid");
- g.innerHTML="";
+ const g=document.getElementById("grid")
+ g.innerHTML=""
  for(let r=3;r>=0;r--){
   for(let c=0;c<4;c++){
-   const div=document.createElement("div");
-   div.className="cell";
-   if(!visited.has(key(r,c))) div.classList.add("hidden");
-   if(d.position[0]==r&&d.position[1]==c){
-    div.classList.add("player");
-    div.innerText="🧍";
-   }
-   g.appendChild(div);
+   const div=document.createElement("div")
+   div.className="cell"
+   if(!visited.has(k(r,c))) div.classList.add("hidden")
+   if(d.position[0]==r && d.position[1]==c){
+    div.classList.add("player")
+    if(d.percepts.includes("breeze")) div.classList.add("breeze")
+    if(d.percepts.includes("stench")) div.classList.add("stench")
+    div.innerText="🧍"
+    }
+   g.appendChild(div)
   }
  }
 }
 
-async function autoPlay(){
- await fetch("/auto");
- update();
+function toggleTheme(){
+ document.body.classList.toggle("light")
 }
 
-start();
+function explainAI(d){
+
+ let text=""
+
+ if(d.percepts.length===0){
+     text="No stench, no breeze → adjacent cells are SAFE."
+ }
+ else{
+
+     if(d.percepts.includes("breeze"))
+         text+="Breeze sensed → pit in neighbouring cell. "
+
+     if(d.percepts.includes("stench"))
+         text+="Stench sensed → Wumpus nearby. "
+
+     if(d.percepts.includes("breeze") && d.percepts.includes("stench"))
+         text+="High danger zone → agent avoids unknown tiles."
+     else
+         text+="Agent marks risky cells and explores safe frontier."
+ }
+
+ document.getElementById("aiText").innerText=text
+}

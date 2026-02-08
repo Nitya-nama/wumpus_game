@@ -1,35 +1,126 @@
-body{
-font-family:Arial;
-text-align:center;
-background:#0f0f18;
-color:white;
+:root{
+ --bg:#0b0713;
+ --tile:#24163d;
+ --accent:#a855f7;
+ --text:#f5f3ff;
+}
+.light{
+ --bg:#faf7ff;
+ --tile:#e6d9ff;
+ --accent:#6d28d9;
+ --text:#1f1147;
 }
 
-#grid{
-display:grid;
-grid-template-columns:repeat(4,80px);
-gap:8px;
-justify-content:center;
-margin:20px;
+body{
+ background:var(--bg);
+ color:var(--text);
+ font-family:Segoe UI;
+ text-align:center;
+ transition:.3s;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(4,80px);
+ gap:12px;
+ justify-content:center;
+ margin:20px;
 }
 
 .cell{
-width:80px;
-height:80px;
-background:#2a2a40;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:30px;
-border-radius:10px;
+ width:80px;height:80px;
+ background:var(--tile);
+ border-radius:12px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:30px;
 }
 
 .hidden{background:#111}
 
-.player{background:#7c3aed}
+.player{
+ box-shadow:0 0 15px var(--accent);
+}
 
 button{
-margin:5px;
-padding:10px;
-font-size:18px;
+ padding:10px;
+ margin:5px;
+ background:var(--accent);
+ color:white;
+ border:none;
+ border-radius:8px;
+ cursor:pointer;
+}
+/* -------- BREEZE FOG -------- */
+.breeze{
+ position:relative;
+ overflow:hidden;
+}
+
+.breeze::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:rgba(200,200,255,0.15);
+ animation:fog 3s infinite;
+}
+
+@keyframes fog{
+ 0%{opacity:.2}
+ 50%{opacity:.5}
+ 100%{opacity:.2}
+}
+/* -------- STENCH TOXIC -------- */
+.stench{
+ box-shadow:0 0 18px rgba(0,255,0,.6);
+ animation:toxic 1.5s infinite alternate;
+}
+
+@keyframes toxic{
+ from{box-shadow:0 0 10px rgba(0,255,0,.3)}
+ to{box-shadow:0 0 25px rgba(0,255,0,.8)}
+}
+/* -------- MODAL -------- */
+.modal{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.7);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ z-index:10;
+}
+
+.modalBox{
+ background:var(--tile);
+ padding:25px;
+ border-radius:16px;
+ text-align:center;
+ box-shadow:0 0 20px var(--accent);
+}
+
+.hidden{display:none}
+.mobileControls{
+ display:none;
+ margin-top:20px;
+}
+
+.mobileControls button{
+ width:70px;
+ height:50px;
+ font-size:22px;
+}
+
+@media(max-width:600px){
+ .mobileControls{display:block}
+}
+#aiBox{
+ background:var(--tile);
+ margin:15px auto;
+ padding:10px;
+ width:300px;
+ border-radius:10px;
+ box-shadow:0 0 12px rgba(0,0,0,.3);
+ font-size:14px;
 }
