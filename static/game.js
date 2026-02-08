@@ -80,7 +80,20 @@ function draw(d){
   for(let c=0;c<4;c++){
    const div=document.createElement("div")
    div.className="cell"
-   if(!visited.has(k(r,c))) div.classList.add("hidden")
+   const key=k(r,c)
+    if(d.position[0]==r && d.position[1]==c){
+        div.classList.add("player")
+        if(d.percepts.includes("breeze")) div.classList.add("breeze")
+        if(d.percepts.includes("stench")) div.classList.add("stench")
+        div.innerText="🧍"
+    }
+    else if(d.safe && d.safe.some(p=>p[0]==r && p[1]==c)){
+        div.classList.add("safe")
+    }
+    else if(!visited.has(key)){
+        div.classList.add("unknown")
+    }
+
    if(d.position[0]==r && d.position[1]==c){
     div.classList.add("player")
     if(d.percepts.includes("breeze")) div.classList.add("breeze")

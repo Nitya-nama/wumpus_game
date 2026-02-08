@@ -8,14 +8,11 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
+<div class="gameLayout">
 
-    <h1>Wumpus World</h1>
-
-    <div class="topbar">
-
-  <div class="rules">
+  <!-- LEFT PANEL -->
+  <aside class="rules">
     <h3>📜 Rules</h3>
     <ul>
       <li>Find the gold ✨</li>
@@ -24,66 +21,54 @@
       <li>Shoot arrow 🏹 once</li>
       <li>Return to start to win</li>
     </ul>
-  </div>
+  </aside>
 
-  <h1>Wumpus World</h1>
+  <!-- CENTER GAME -->
+  <main class="gameArea">
 
-  <button class="themeBtn" onclick="toggleTheme()">🌙 / ☀</button>
+      <h1>Wumpus World</h1>
 
-</div>
+      <div id="score"></div>
+      <div id="sense"></div>
 
+      <div id="grid" class="grid"></div>
 
-    <!-- HUD -->
-    <div id="score"></div>
-    <div id="sense"></div>
-
-    <!-- GAME GRID -->
-    <div id="grid" class="grid"></div>
-
-    <!-- DESKTOP CONTROLS -->
-    <div class="controls">
+      <div class="controls">
         <button onclick="move('up')">⬆</button>
         <div>
-            <button onclick="move('left')">⬅</button>
-            <button onclick="move('right')">➡</button>
+          <button onclick="move('left')">⬅</button>
+          <button onclick="move('right')">➡</button>
         </div>
         <button onclick="move('down')">⬇</button>
-    </div>
+      </div>
 
-    <!-- ACTION BUTTONS -->
-    <div>
+      <div class="actions">
         <button onclick="shootMode()">🏹 Shoot</button>
         <button onclick="autoPlay()">🤖 Auto</button>
         <button onclick="newGame()">🔄 Restart</button>
-    </div>
+      </div>
 
-    <!-- MOBILE CONTROLS -->
-    <div class="mobileControls">
-        <button onclick="move('up')">⬆</button>
-        <div>
-            <button onclick="move('left')">⬅</button>
-            <button onclick="move('right')">➡</button>
-        </div>
-        <button onclick="move('down')">⬇</button>
-    </div>
-
-    <!-- AI REASONING PANEL -->
-    <div id="aiBox">
+      <div id="aiBox">
         <h3>🧠 AI Reasoning</h3>
         <p id="aiText">Waiting...</p>
-    </div>
+      </div>
 
-    <!-- WIN / LOSE MODAL -->
-    <div id="modal" class="modal hidden">
-        <div class="modalBox">
-            <h2 id="modalTitle"></h2>
-            <p id="modalMsg"></p>
-            <button onclick="newGame()">Play Again</button>
-        </div>
-    </div>
+  </main>
 
-    <!-- JS -->
-    <script src="{{ url_for('static', filename='game.js') }}"></script>
+  <!-- RIGHT PANEL -->
+  <aside class="rightPanel">
+    <button class="themeBtn" onclick="toggleTheme()">🌙 / ☀</button>
+  </aside>
 
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden">
+  <div class="modalBox">
+    <h2 id="modalTitle"></h2>
+    <p id="modalMsg"></p>
+    <button onclick="newGame()">Play Again</button>
+  </div>
+</div>
 </body>
 </html>
