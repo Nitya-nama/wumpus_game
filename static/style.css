@@ -1,126 +1,161 @@
+/* ---------- THEME VARIABLES ---------- */
 :root{
- --bg:#0b0713;
- --tile:#24163d;
- --accent:#a855f7;
- --text:#f5f3ff;
+  --bg:#0b0713;
+  --tile:#24163d;
+  --accent:#a855f7;
+  --text:#f5f3ff;
 }
+
 .light{
- --bg:#faf7ff;
- --tile:#e6d9ff;
- --accent:#6d28d9;
- --text:#1f1147;
+  --bg:#faf7ff;
+  --tile:#e6d9ff;
+  --accent:#6d28d9;
+  --text:#1f1147;
 }
 
+/* ---------- BASE ---------- */
 body{
- background:var(--bg);
- color:var(--text);
- font-family:Segoe UI;
- text-align:center;
- transition:.3s;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Segoe UI, sans-serif;
+  text-align:center;
+  transition:.3s;
 }
 
+h1{
+  margin-top:15px;
+}
+
+/* ---------- GRID ---------- */
 .grid{
- display:grid;
- grid-template-columns:repeat(4,80px);
- gap:12px;
- justify-content:center;
- margin:20px;
+  display:grid;
+  grid-template-columns:repeat(4,80px);
+  gap:12px;
+  justify-content:center;
+  margin:20px auto;
 }
 
 .cell{
- width:80px;height:80px;
- background:var(--tile);
- border-radius:12px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:30px;
+  width:80px;
+  height:80px;
+  background:var(--tile);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
 }
 
-.hidden{background:#111}
+.hidden{
+  background:#111;
+}
 
 .player{
- box-shadow:0 0 15px var(--accent);
+  box-shadow:0 0 15px var(--accent);
 }
 
-button{
- padding:10px;
- margin:5px;
- background:var(--accent);
- color:white;
- border:none;
- border-radius:8px;
- cursor:pointer;
-}
-/* -------- BREEZE FOG -------- */
-.breeze{
- position:relative;
- overflow:hidden;
-}
-
+/* ---------- EFFECTS ---------- */
 .breeze::after{
- content:"";
- position:absolute;
- inset:0;
- background:rgba(200,200,255,0.15);
- animation:fog 3s infinite;
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(200,200,255,.25);
+  animation:fog 3s infinite;
 }
 
 @keyframes fog{
- 0%{opacity:.2}
- 50%{opacity:.5}
- 100%{opacity:.2}
+  0%{opacity:.2}
+  50%{opacity:.5}
+  100%{opacity:.2}
 }
-/* -------- STENCH TOXIC -------- */
+
 .stench{
- box-shadow:0 0 18px rgba(0,255,0,.6);
- animation:toxic 1.5s infinite alternate;
+  box-shadow:0 0 20px rgba(0,255,0,.8);
+  animation:toxic 1.5s infinite alternate;
 }
 
 @keyframes toxic{
- from{box-shadow:0 0 10px rgba(0,255,0,.3)}
- to{box-shadow:0 0 25px rgba(0,255,0,.8)}
-}
-/* -------- MODAL -------- */
-.modal{
- position:fixed;
- inset:0;
- background:rgba(0,0,0,.7);
- display:flex;
- align-items:center;
- justify-content:center;
- z-index:10;
+  from{box-shadow:0 0 10px rgba(0,255,0,.4)}
+  to{box-shadow:0 0 25px rgba(0,255,0,1)}
 }
 
-.modalBox{
- background:var(--tile);
- padding:25px;
- border-radius:16px;
- text-align:center;
- box-shadow:0 0 20px var(--accent);
+/* ---------- BUTTONS ---------- */
+button{
+  background:var(--accent);
+  color:white;
+  border:none;
+  border-radius:8px;
+  padding:10px 14px;
+  margin:6px;
+  font-size:16px;
+  cursor:pointer;
 }
 
-.hidden{display:none}
+button:hover{
+  opacity:.9;
+}
+
+/* ---------- CONTROLS ---------- */
+.controls{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+
+.controls div{
+  display:flex;
+  gap:6px;
+}
+
+/* ---------- MOBILE ---------- */
 .mobileControls{
- display:none;
- margin-top:20px;
+  display:none;
+  margin-top:15px;
 }
 
 .mobileControls button{
- width:70px;
- height:50px;
- font-size:22px;
+  width:70px;
+  height:50px;
+  font-size:22px;
 }
 
 @media(max-width:600px){
- .mobileControls{display:block}
+  .controls{display:none}
+  .mobileControls{display:block}
 }
+
+/* ---------- AI BOX ---------- */
 #aiBox{
- background:var(--tile);
- margin:15px auto;
- padding:10px;
- width:300px;
- border-radius:10px;
- box-shadow:0 0 12px rgba(0,0,0,.3);
- font-size:14px;
+  background:var(--tile);
+  margin:20px auto;
+  padding:12px;
+  width:300px;
+  border-radius:10px;
+  box-shadow:0 0 12px rgba(0,0,0,.3);
+  font-size:14px;
+}
+
+/* ---------- MODAL ---------- */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+
+.modalBox{
+  background:var(--tile);
+  padding:25px;
+  border-radius:16px;
+  text-align:center;
+  box-shadow:0 0 20px var(--accent);
+}
+
+.hidden{
+  display:none;
 }

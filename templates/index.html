@@ -1,35 +1,72 @@
-<h1>Wumpus World</h1>
-<button onclick="toggleTheme()">🌙 / ☀</button>
-<div id="score"></div>
-<div id="sense"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wumpus World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div id="grid" class="grid"></div>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 
-<div>
-<button onclick="move('up')">⬆</button>
-<button onclick="move('left')">⬅</button>
-<button onclick="move('right')">➡</button>
-<button onclick="move('down')">⬇</button>
-</div>
+<body>
 
-<button onclick="shootMode()">🏹 Shoot</button>
-<button onclick="autoPlay()">🤖 Auto</button>
-<div id="modal" class="modal hidden">
- <div class="modalBox">
-   <h2 id="modalTitle"></h2>
-   <p id="modalMsg"></p>
-   <button onclick="location.reload()">Restart</button>
- </div>
-</div>
-<div class="mobileControls">
- <button onclick="move('up')">⬆</button>
- <div>
-  <button onclick="move('left')">⬅</button>
-  <button onclick="move('right')">➡</button>
- </div>
- <button onclick="move('down')">⬇</button>
-</div>
-<div id="aiBox">
- <h3>🧠 AI Reasoning</h3>
- <p id="aiText">Waiting...</p>
-</div>
+    <h1>Wumpus World</h1>
+
+    <!-- Theme Toggle -->
+    <button onclick="toggleTheme()">🌙 / ☀</button>
+
+    <!-- HUD -->
+    <div id="score"></div>
+    <div id="sense"></div>
+
+    <!-- GAME GRID -->
+    <div id="grid" class="grid"></div>
+
+    <!-- DESKTOP CONTROLS -->
+    <div class="controls">
+        <button onclick="move('up')">⬆</button>
+        <div>
+            <button onclick="move('left')">⬅</button>
+            <button onclick="move('right')">➡</button>
+        </div>
+        <button onclick="move('down')">⬇</button>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div>
+        <button onclick="shootMode()">🏹 Shoot</button>
+        <button onclick="autoPlay()">🤖 Auto</button>
+        <button onclick="newGame()">🔄 Restart</button>
+    </div>
+
+    <!-- MOBILE CONTROLS -->
+    <div class="mobileControls">
+        <button onclick="move('up')">⬆</button>
+        <div>
+            <button onclick="move('left')">⬅</button>
+            <button onclick="move('right')">➡</button>
+        </div>
+        <button onclick="move('down')">⬇</button>
+    </div>
+
+    <!-- AI REASONING PANEL -->
+    <div id="aiBox">
+        <h3>🧠 AI Reasoning</h3>
+        <p id="aiText">Waiting...</p>
+    </div>
+
+    <!-- WIN / LOSE MODAL -->
+    <div id="modal" class="modal hidden">
+        <div class="modalBox">
+            <h2 id="modalTitle"></h2>
+            <p id="modalMsg"></p>
+            <button onclick="newGame()">Play Again</button>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='game.js') }}"></script>
+
+</body>
+</html>
