@@ -1,64 +1,48 @@
-from flask import Flask, jsonify, request, session, render_template
+from flask import Flask, render_template, request, jsonify, session
+from engine.game import Game
 import uuid
-from wumpus_engine import WumpusWorld
-from ai_agent import WumpusAgent
 
 app = Flask(__name__)
-app.secret_key = "wumpus-secret"
+app.secret_key = "supersecret"
 
 games = {}
-agents = {}
-
-def get_game():
-    gid = session.get("gid")
-    if not gid or gid not in games:
-        gid = str(uuid.uuid4())
-        session["gid"] = gid
-        games[gid] = WumpusWorld()
-        agents[gid] = WumpusAgent()
-    return games[gid], agents[gid]
 
 @app.route("/")
-def home():
+def index():
     return render_template("index.html")
 
-@app.route("/start")
-def start():
-    session.clear()
-    g,a = get_game()
-    return jsonify(g.state())
-
-@app.route("/state")
-def state():
-    g,a = get_game()
-    a.update(g.player_pos, g.percepts())
-    return jsonify(g.state())
+@app.route("/new")
+def new_game():
+    gid = str(uuid.uuid4())
+    games[gid] = Game()
+    session["gid"] = gid
+    return jsonify(games[gid].get_state())
 
 @app.route("/move", methods=["POST"])
 def move():
-    g,a = get_game()
-    g.move(request.json["direction"])
-    a.update(g.player_pos, g.percepts())
-    return jsonify(g.state())
+    gid = session.get("gid")
+    direction = request.json["direction"]
+
+    state = games[gid].move(direction)
+    return jsonify(state)
 
 @app.route("/shoot", methods=["POST"])
 def shoot():
-    g,a = get_game()
-    g.shoot(request.json["direction"])
-    return jsonify(g.state())
+    gid = session.get("gid")
+    state = games[gid].shoot()
+    return jsonify(state)
 
-@app.route("/auto")
-def auto():
-    g,a = get_game()
-    nxt = a.next_move(g.player_pos)
-    if nxt:
-        r,c = g.player_pos
-        nr,nc = nxt
-        if nr>r: g.move("up")
-        elif nr<r: g.move("down")
-        elif nc>c: g.move("right")
-        elif nc<c: g.move("left")
-    return jsonify(g.state())
+@app.route("/grab", methods=["POST"])
+def grab():
+    gid = session.get("gid")
+    state = games[gid].grab()
+    return jsonify(state)
+
+@app.route("/climb", methods=["POST"])
+def climb():
+    gid = session.get("gid")
+    state = games[gid].climb()
+    return jsonify(state)
 
 if __name__ == "__main__":
     app.run(debug=True)

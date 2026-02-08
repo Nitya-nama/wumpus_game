@@ -1,33 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Wumpus World</title>
-<link rel="stylesheet" href="/static/style.css">
+    <title>Wumpus World</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
 <h1>Wumpus World</h1>
-
-<div id="info"></div>
 <div id="grid"></div>
 
 <div class="controls">
-<button onclick="move('up')">↑</button>
-<button onclick="move('left')">←</button>
-<button onclick="move('right')">→</button>
-<button onclick="move('down')">↓</button>
-</div>
-
-<button onclick="shoot()">Shoot</button>
-<button onclick="auto()">Auto</button>
-<button onclick="newGame()">Restart</button>
-
-<div id="modal" class="hidden">
-  <div class="box">
-    <h2 id="endTitle"></h2>
-    <button onclick="newGame()">Play Again</button>
-  </div>
+    <button onclick="move('up')">↑</button>
+    <button onclick="move('left')">←</button>
+    <button onclick="move('down')">↓</button>
+    <button onclick="move('right')">→</button>
+    <button onclick="grab()">Grab</button>
+    <button onclick="shoot()">Shoot</button>
+    <button onclick="climb()">Climb</button>
+    <button onclick="newGame()">New Game</button>
 </div>
 
 <script src="/static/game.js"></script>

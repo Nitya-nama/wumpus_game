@@ -1,52 +1,51 @@
-let data=null
+let state = null;
 
 async function newGame(){
- await fetch("/start")
- update()
+    const res = await fetch("/new");
+    state = await res.json();
+    draw();
 }
 
-async function move(d){
- await fetch("/move",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:d})})
- update()
+async function move(dir){
+    const res = await fetch("/move",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({direction:dir})
+    });
+    state = await res.json();
+    draw();
+}
+
+async function grab(){
+    const res = await fetch("/grab",{method:"POST"});
+    state = await res.json();
+    draw();
 }
 
 async function shoot(){
- await fetch("/shoot",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({direction:"up"})})
- update()
+    const res = await fetch("/shoot",{method:"POST"});
+    state = await res.json();
+    draw();
 }
 
-async function auto(){
- await fetch("/auto")
- update()
-}
-
-async function update(){
- const r=await fetch("/state")
- data=await r.json()
-
- draw()
- document.getElementById("info").innerText=data.percepts.join(" ")+" "+data.message+" Score:"+data.score
-
- if(data.game_over){
-  document.getElementById("modal").classList.remove("hidden")
-  document.getElementById("endTitle").innerText=data.message
- }
+async function climb(){
+    const res = await fetch("/climb",{method:"POST"});
+    state = await res.json();
+    draw();
 }
 
 function draw(){
- const g=document.getElementById("grid")
- g.innerHTML=""
- for(let r=3;r>=0;r--){
-  for(let c=0;c<4;c++){
-   const d=document.createElement("div")
-   d.className="cell"
-   if(data.position[0]==r && data.position[1]==c){
-     d.classList.add("player")
-     d.innerText="🙂"
-   }
-   g.appendChild(d)
-  }
- }
+    const grid=document.getElementById("grid");
+    grid.innerHTML="";
+    for(let i=0;i<4;i++){
+        for(let j=0;j<4;j++){
+            let cell=document.createElement("div");
+            cell.className="cell";
+            if(state.player[0]==i && state.player[1]==j)
+                cell.innerText="🙂";
+            grid.appendChild(cell);
+        }
+    }
 }
 
-newGame()
+newGame();
