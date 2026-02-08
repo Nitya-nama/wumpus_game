@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: wumpus-backend
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --workers 1
-    envVars:
-      - key: SECRET_KEY
-        generateValue: true
